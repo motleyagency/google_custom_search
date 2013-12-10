@@ -18,10 +18,10 @@ module GoogleCustomSearch
   ##
   # Search the site.
   #
-  def search(query, offset = 0, length = 20)
+  def search(query, lang, offset = 0, length = 20)
     
     # Get and parse results.
-    url = url(query, offset, length)
+    url = url(query, lang, offset, length)
     return nil unless xml = fetch_xml(url)
     data = Hash.from_xml(xml)['GSP']
 
@@ -43,11 +43,12 @@ module GoogleCustomSearch
   ##
   # Build search request URL.
   #
-  def url(query, offset = 0, length = 20)
+  def url(query, lang, offset = 0, length = 20)
     params = {
       :q      => query,
       :start  => offset,
       :num    => length,
+      :lr     => "lang_#{lang}",
       :client => "google-csbe",
       :output => "xml_no_dtd",
       :cx     => GOOGLE_SEARCH_CX
