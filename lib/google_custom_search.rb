@@ -23,6 +23,12 @@ module GoogleCustomSearch
     # Get and parse results.
     url = url(query, lang, offset, length)
     return nil unless xml = fetch_xml(url)
+    
+    # Weird og:description too long character
+    # replace, Google produces malfunctional
+    # XML -> replace with proper escaping
+    xml = xml.force_encoding("utf-8").gsub("\u{272F}>", '"/>')
+    
     data = Hash.from_xml(xml)['GSP']
 
     # Extract and return search result data, if exists.
