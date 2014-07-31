@@ -27,7 +27,11 @@ module GoogleCustomSearch
     # Weird og:description too long character
     # replace, Google produces malfunctional
     # XML -> replace with proper escaping
-    xml = xml.force_encoding("utf-8").gsub("\u{272F}>", '"/>')
+    # xml = xml.force_encoding("utf-8").gsub("\u{272F}>", '"/>')
+    
+    # Remove attributes from xml string
+    # to avoid Google cse parsing errors
+    xml = xml.gsub('/\<Attribute name="(og:.*?|twitter:.*?|fb:.*?)" (.*?)>/','')
     
     data = Hash.from_xml(xml)['GSP']
 
