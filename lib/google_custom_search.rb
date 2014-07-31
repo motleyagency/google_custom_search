@@ -31,7 +31,7 @@ module GoogleCustomSearch
     
     # Remove attributes from xml string
     # to avoid Google cse parsing errors
-    xml = xml.gsub('/\<Attribute name="(og:.*?|twitter:.*?|fb:.*?)" (.*?)>/','')
+    xml = xml.gsub(/<Attribute name="(og:.*?|twitter:.*?|fb:.*?)" (.*?)>/,'')
     
     data = Hash.from_xml(xml)['GSP']
 
